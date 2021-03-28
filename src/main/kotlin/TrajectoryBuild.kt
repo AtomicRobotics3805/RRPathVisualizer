@@ -1,7 +1,6 @@
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder
 import com.acmerobotics.roadrunner.trajectory.constraints.*
-import org.firstinspires.ftc.teamcode.hardware.BaseDriveConstants
 
 class TrajectoryBuild(constants: BaseDriveConstants) {
     private val velConstraint = MinVelocityConstraint(listOf(

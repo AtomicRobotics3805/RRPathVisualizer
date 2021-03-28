@@ -1,7 +1,6 @@
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
-import org.firstinspires.ftc.teamcode.hardware.compbot.DriveConstantsComp
 
 object TrajectoryGen {
     enum class Color {

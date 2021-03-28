@@ -1,5 +1,3 @@
-package org.firstinspires.ftc.teamcode.hardware
-
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 
 abstract class BaseDriveConstants {
@@ -8,6 +6,7 @@ abstract class BaseDriveConstants {
      */
     @JvmField
     var ticksPerRev = 0.0
+
     @JvmField
     var maxRPM = 0.0
 
@@ -33,8 +32,10 @@ abstract class BaseDriveConstants {
      */
     @JvmField
     var wheelRadius = 0.0 // in
+
     @JvmField
     var gearRatio = 0.0 // output (wheel) speed / input (motor) speed
+
     @JvmField
     var trackWidth = 0.0 // in
 
@@ -47,8 +48,10 @@ abstract class BaseDriveConstants {
      */
     @JvmField
     var kV = 0.0
+
     @JvmField
     var kA = 0.0
+
     @JvmField
     var kStatic = 0.0
 
@@ -62,19 +65,28 @@ abstract class BaseDriveConstants {
      */
     @JvmField
     var maxVel = 0.0
+
     @JvmField
     var maxAccel = 0.0
+
     @JvmField
     var maxAngVel = 0.0
+
     @JvmField
     var maxAngAccel = 0.0
-    
+
     @JvmField
     var lateralMultiplier = 0.0
 
+    @JvmField
+    var driftMultiplier = 0.0
+
+    @JvmField
+    var driftTurnMultiplier = 0.0
+
     lateinit var translationalPID: PIDCoefficients
     lateinit var headingPID: PIDCoefficients
-    
+
     open fun encoderTicksToInches(ticks: Double): Double {
         return wheelRadius * 2 * Math.PI * gearRatio * ticks / ticksPerRev
     }

@@ -1,7 +1,5 @@
-package org.firstinspires.ftc.teamcode.hardware.compbot
-
 import com.acmerobotics.roadrunner.control.PIDCoefficients
-import org.firstinspires.ftc.teamcode.hardware.BaseDriveConstants
+import BaseDriveConstants
 
 /*
 * Constants shared between multiple drive types.
@@ -41,10 +39,10 @@ object DriveConstantsComp : BaseDriveConstants() {
          * angular distances although most angular parameters are wrapped in Math.toRadians() for
          * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from gearRatio.
          */
-         wheelRadius = 2.0 // in
-         gearRatio = 0.5 // output (wheel) speed / input (motor) speed
-         trackWidth = 23.0 // in
-        
+        wheelRadius = 2.0 // in
+        gearRatio = 0.5 // output (wheel) speed / input (motor) speed
+        trackWidth = 23.0 // in
+
         /*
          * These are the feedforward parameters used to model the drive motor behavior. If you are using
          * the built-in velocity PID, *these values are fine as is*. However, if you do not have drive
@@ -55,7 +53,7 @@ object DriveConstantsComp : BaseDriveConstants() {
         kV = 0.0245
         kA = 0.0035
         kStatic = 0.01
-        
+
         /*
          * These values are used to generate the trajectories for you robot. To ensure proper operation,
          * the constraints should never exceed ~80% of the robot's actual capabilities. While Road
@@ -64,12 +62,15 @@ object DriveConstantsComp : BaseDriveConstants() {
          * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
          * forces acceleration-limited profiling). All distance units are inches.
          */
-        maxVel = 35.0
+        maxVel = 40.0
         maxAccel = 45.0
         maxAngVel = Math.toRadians(60.0)
         maxAngAccel = Math.toRadians(60.0)
 
         lateralMultiplier = 1.0
+
+        driftMultiplier = 1.0
+        driftTurnMultiplier = 1.0
 
         translationalPID = PIDCoefficients(8.0, 0.0, 0.0)
         headingPID = PIDCoefficients(8.0, 0.0, 0.0)
