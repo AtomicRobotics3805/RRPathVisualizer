@@ -10,8 +10,7 @@ class TrajectoryBuild(constants: BaseDriveConstants) {
     private val accelConstraint = ProfileAccelerationConstraint(constants.maxAccel)
 
     fun trajectoryBuilder(startPose: Pose2d): TrajectoryBuilder {
-        var traj = TrajectoryBuilder(startPose, false, velConstraint, accelConstraint)
-        return traj
+        return TrajectoryBuilder(startPose, false, velConstraint, accelConstraint)
     }
 
     fun trajectoryBuilder(startPose: Pose2d, reversed: Boolean): TrajectoryBuilder {
