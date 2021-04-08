@@ -48,7 +48,7 @@ object TrajectoryGen {
         .build()
 
     private val powershotToWobble = drive.trajectoryBuilder(Pose2d(lowToPowershot.end().vec(), powerShotAngle(lowToPowershot.end().vec(), 2)), powerShotAngle(midToPowershot.end().vec(), 2))
-        .splineTo(Vector2d(-48.0, 38.0), 180.0.toRadians)
+        .splineTo(Vector2d(-48.0, 40.0), 180.0.toRadians)
         .build()
     private val powershotToRingToWobble = drive.trajectoryBuilder(Pose2d(midToPowershot.end().vec(), powerShotAngle(midToPowershot.end().vec(), 2)), powerShotAngle(midToPowershot.end().vec(), 2))
         .splineTo(Vector2d(-20.0, 34.0), 135.0.toRadians)
