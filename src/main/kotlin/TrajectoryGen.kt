@@ -37,11 +37,11 @@ object TrajectoryGen {
         .addDisplacementMarker{ mech.dropGoal() }
         .build()
 
-    private val lowToPowershot = drive.trajectoryBuilder(startToLow.end(), startToLow.end().heading - 90.0.toRadians)
-        .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 270.0.toRadians)
+    private val lowToPowershot = drive.trajectoryBuilder(startToLow.end(), startToLow.end().heading)
+        .splineTo(Vector2d(-7.0, 26.0), powerShotAngle(Vector2d(-7.0, 26.0), 0))
         .build()
-    private val midToPowershot = drive.trajectoryBuilder(startToMid.end(), startToMid.end().heading - 90.0.toRadians)
-        .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 270.0.toRadians)
+    private val midToPowershot = drive.trajectoryBuilder(startToMid.end(), startToMid.end().heading)
+        .splineTo(Vector2d(-7.0, 26.0), powerShotAngle(Vector2d(-7.0, 26.0), 0))
         .build()
     private val highToPowershot = drive.trajectoryBuilder(startToHigh.end(), startToHigh.end().heading - 135.0.toRadians)
         .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 90.0.toRadians)
@@ -89,7 +89,7 @@ object TrajectoryGen {
             .build()
 
     fun createTrajectory(): ArrayList<Trajectory> {
-        return createTrajectoryC()
+        return createTrajectoryB()
     }
 
     fun createTrajectories() {
