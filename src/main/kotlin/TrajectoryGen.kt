@@ -26,40 +26,39 @@ object TrajectoryGen {
     // travel to drop zone, drop wobble goal between movements, prepare to shoot rings
     private val startToLow = drive.trajectoryBuilder(startPose, startPose.heading)
         .splineTo(Vector2d(3.0, 52.0.y), 320.0.a.flip.toRadians)
-        .addDisplacementMarker{ mech.dropGoal() }
         .build()
     private val startToMid = drive.trajectoryBuilder(startPose, startPose.heading)
-        .splineTo(Vector2d(18.0, 40.0), 270.0.toRadians)
-        .addDisplacementMarker{ mech.dropGoal() }
+        .splineTo(Vector2d(17.0, 40.0), 270.0.toRadians)
         .build()
     private val startToHigh = drive.trajectoryBuilder(startPose, startPose.heading + 20.0.toRadians)
         .splineToConstantHeading(Vector2d(58.0, 44.0), 0.0.toRadians)
-        .addDisplacementMarker{ mech.dropGoal() }
         .build()
 
-    private val lowToPowershot = drive.trajectoryBuilder(startToLow.end(), startToLow.end().heading)
-        .splineTo(Vector2d(-7.0, 26.0), powerShotAngle(Vector2d(-7.0, 26.0), 0))
+    private val lowToPowershot = drive.trajectoryBuilder(startToLow.end(), startToLow.end().heading - 90.0.toRadians)
+        .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 270.0.toRadians)
         .build()
-    private val midToPowershot = drive.trajectoryBuilder(startToMid.end(), startToMid.end().heading)
-        .splineTo(Vector2d(-7.0, 26.0), powerShotAngle(Vector2d(-7.0, 26.0), 0))
+    private val midToPowershot = drive.trajectoryBuilder(startToMid.end(), startToMid.end().heading - 90.0.toRadians)
+        .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 270.0.toRadians)
         .build()
     private val highToPowershot = drive.trajectoryBuilder(startToHigh.end(), startToHigh.end().heading - 135.0.toRadians)
         .splineToLinearHeading(Pose2d(-7.0, 26.0, powerShotAngle(Vector2d(-7.0, 26.0), 0)), 90.0.toRadians)
         .build()
 
     private val powershotToWobble = drive.trajectoryBuilder(Pose2d(lowToPowershot.end().vec(), powerShotAngle(lowToPowershot.end().vec(), 2)), powerShotAngle(midToPowershot.end().vec(), 2))
-        .splineTo(Vector2d(-48.0, 40.0), 180.0.toRadians)
+        .splineTo(Vector2d(-20.0, 34.0), 135.0.toRadians)
+        .splineTo(Vector2d(-48.0, 41.0), 180.0.toRadians)
         .build()
     private val powershotToRingToWobble = drive.trajectoryBuilder(Pose2d(midToPowershot.end().vec(), powerShotAngle(midToPowershot.end().vec(), 2)), powerShotAngle(midToPowershot.end().vec(), 2))
         .splineTo(Vector2d(-20.0, 34.0), 135.0.toRadians)
-        .splineTo(Vector2d(-48.0, 40.0), 180.0.toRadians)
+        .splineTo(Vector2d(-48.0, 41.0), 180.0.toRadians)
         .build()
 
-    private val powershotToRings = drive.trajectoryBuilder(Pose2d(midToPowershot.end().vec(), powerShotAngle(midToPowershot.end().vec(), 2)), powerShotAngle(midToPowershot.end().vec(), 2) - 100.0.toRadians)
-        .splineToLinearHeading(Pose2d(-32.0, 44.0, 180.0.toRadians), 180.0.toRadians)
+    private val powershotToRings = drive.trajectoryBuilder(Pose2d(highToPowershot.end().vec(), powerShotAngle(highToPowershot.end().vec(), 2)), powerShotAngle(highToPowershot.end().vec(), 2) + 90.0.toRadians)
+        .splineToSplineHeading(Pose2d(-7.0, 36.0, 180.0.toRadians), 90.0.toRadians)
+        .splineToSplineHeading(Pose2d(-36.0, 36.0, 180.0.toRadians), 180.0.toRadians)
         .build()
     private val ringsToRingsFurther = drive.trajectoryBuilder(powershotToRings.end(), powershotToRings.end().heading)
-        .splineToConstantHeading(Vector2d(-44.0, 44.0), 180.0.toRadians)
+        .splineToConstantHeading(Vector2d(-44.0, 36.0), 180.0.toRadians)
         .build()
 
     private val wobbleToShootTower =
@@ -69,13 +68,12 @@ object TrajectoryGen {
 
     private val wobbleToLow =
         drive.trajectoryBuilder(powershotToWobble.end(), true)
-            .splineToLinearHeading(Pose2d(3.0, 46.0.y, 0.0.toRadians), 320.0.a.flip.toRadians)
-            .addDisplacementMarker{ mech.dropGoal() }
+            .splineToLinearHeading(Pose2d(12.0, 46.0.y, 0.0.toRadians), 320.0.a.flip.toRadians)
             .build()
 
     private val lowToPark =
         drive.trajectoryBuilder(wobbleToLow.end(), wobbleToLow.end().heading - 90.0.toRadians)
-            .splineTo(Vector2d(10.0, 28.0.y), 270.0.a.toRadians)
+            .splineTo(Vector2d(12.0, 28.0.y), 270.0.a.toRadians)
             .build()
     private val ringsToPark =
         drive.trajectoryBuilder(ringsToRingsFurther.end(), true)
@@ -84,8 +82,7 @@ object TrajectoryGen {
 
     private val towerToMidToPark =
         drive.trajectoryBuilder(wobbleToShootTower.end(), true)
-            .splineTo(Vector2d(14.0, 36.0), 90.0.toRadians)
-            .addDisplacementMarker{ mech.dropGoal() }
+            .splineTo(Vector2d(16.0, 38.0), 90.0.toRadians)
             .build()
 
     fun createTrajectory(): ArrayList<Trajectory> {
