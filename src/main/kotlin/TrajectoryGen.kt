@@ -53,11 +53,13 @@ object TrajectoryGen {
         .splineTo(Vector2d(-48.0, 41.0), 180.0.toRadians)
         .build()
 
-    private val powershotToRings = drive.trajectoryBuilder(Pose2d(highToPowershot.end().vec(), powerShotAngle(highToPowershot.end().vec(), 2)), powerShotAngle(highToPowershot.end().vec(), 2) + 90.0.toRadians)
-        .splineToSplineHeading(Pose2d(-7.0, 36.0, 180.0.toRadians), 90.0.toRadians)
-        .splineToSplineHeading(Pose2d(-36.0, 36.0, 180.0.toRadians), 180.0.toRadians)
+    private val powershotToAboveRings = drive.trajectoryBuilder(Pose2d(highToPowershot.end().vec(), powerShotAngle(highToPowershot.end().vec(), 2)), powerShotAngle(highToPowershot.end().vec(), 2) - 90.0.toRadians)
+        .splineTo(Vector2d(-7.0, 36.0), 90.0.toRadians)
         .build()
-    private val ringsToRingsFurther = drive.trajectoryBuilder(powershotToRings.end(), powershotToRings.end().heading)
+    private val aboveRingsToRings = drive.trajectoryBuilder(powershotToAboveRings.end(), powershotToAboveRings.end().heading)
+        .lineToConstantHeading(Vector2d(-36.0, 36.0))
+        .build()
+    private val ringsToRingsFurther = drive.trajectoryBuilder(aboveRingsToRings.end(), aboveRingsToRings.end().heading)
         .splineToConstantHeading(Vector2d(-44.0, 36.0), 180.0.toRadians)
         .build()
 
@@ -86,7 +88,7 @@ object TrajectoryGen {
             .build()
 
     fun createTrajectory(): ArrayList<Trajectory> {
-        return createTrajectoryB()
+        return createTrajectoryC()
     }
 
     fun createTrajectories() {
@@ -102,7 +104,7 @@ object TrajectoryGen {
     }
 
     private fun createTrajectoryC(): ArrayList<Trajectory> {
-        return arrayListOf(startToHigh, highToPowershot, powershotToRings, ringsToRingsFurther, ringsToPark)
+        return arrayListOf(startToHigh, highToPowershot, powershotToAboveRings, aboveRingsToRings, ringsToRingsFurther, ringsToPark)
     }
 
     fun drawOffbounds() {
