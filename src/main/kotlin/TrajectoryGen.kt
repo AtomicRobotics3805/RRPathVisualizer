@@ -54,13 +54,13 @@ object TrajectoryGen {
         .build()
 
     private val powershotToAboveRings = drive.trajectoryBuilder(Pose2d(highToPowershot.end().vec(), powerShotAngle(highToPowershot.end().vec(), 2)), powerShotAngle(highToPowershot.end().vec(), 2) - 90.0.toRadians)
-        .splineTo(Vector2d(-7.0, 36.0), 90.0.toRadians)
+        .splineTo(Vector2d(-7.0, 39.5), 90.0.toRadians)
         .build()
     private val aboveRingsToRings = drive.trajectoryBuilder(powershotToAboveRings.end(), powershotToAboveRings.end().heading)
-        .lineToConstantHeading(Vector2d(-36.0, 36.0))
+        .lineToConstantHeading(Vector2d(-34.0, 39.5))
         .build()
     private val ringsToRingsFurther = drive.trajectoryBuilder(aboveRingsToRings.end(), aboveRingsToRings.end().heading)
-        .splineToConstantHeading(Vector2d(-44.0, 36.0), 180.0.toRadians)
+        .splineToConstantHeading(Vector2d(-44.0, 39.5), 180.0.toRadians)
         .build()
 
     private val wobbleToShootTower =
@@ -78,7 +78,7 @@ object TrajectoryGen {
             .splineTo(Vector2d(12.0, 28.0.y), 270.0.a.toRadians)
             .build()
     private val ringsToPark =
-        drive.trajectoryBuilder(ringsToRingsFurther.end(), true)
+        drive.trajectoryBuilder(Pose2d(ringsToRingsFurther.end().vec(), towerAngle(ringsToRingsFurther.end().vec())), true)
             .splineTo(Vector2d(10.0, 28.0.y), 0.0.a.toRadians)
             .build()
 
