@@ -18,28 +18,37 @@ object TrajectoryGen {
         .splineToConstantHeading(Vector2d(-53.5, 62.0), 175.0.toRadians)
         .build()
 
+    private val startToPark = drive.trajectoryBuilder(startPose, true)
+        .splineToConstantHeading(Vector2d(40.0, 52.0), 0.0.toRadians)
+        .build()
+
+    private val carouselToHub = drive.trajectoryBuilder(startToCarousel.end(), true)
+        .splineToSplineHeading(Pose2d(-12.0, 42.0, 270.0.toRadians), 320.0.toRadians)
+        .build()
+
+    private val hubToPark = drive.trajectoryBuilder(carouselToHub.end(), carouselToHub.end().heading + 100.0.toRadians)
+        .splineTo(Vector2d(40.0, 52.0), 10.0.toRadians)
+        .build()
+
     private val carouselToPark = drive.trajectoryBuilder(startToCarousel.end(), startToCarousel.end().heading)
         .back(95.0)
         .build()
 
 
     fun createTrajectory(): ArrayList<Trajectory> {
+        return hubPath()
+    }
+
+    fun hubPath(): ArrayList<Trajectory> {
+        return arrayListOf(startToCarousel, carouselToHub, hubToPark)
+    }
+
+    fun carouselPath(): ArrayList<Trajectory> {
         return arrayListOf(startToCarousel, carouselToPark)
     }
 
-    // Shipping Element / Duck in the Left position
-    private fun createTrajectoryLeft(): ArrayList<Trajectory> {
-        return arrayListOf()
-    }
-
-    // Shipping Element / Duck in the Middle position
-    private fun createTrajectoryMiddle(): ArrayList<Trajectory> {
-        return arrayListOf()
-    }
-
-    // Shipping Element / Duck in the Right position
-    private fun createTrajectoryRight(): ArrayList<Trajectory> {
-        return arrayListOf()
+    fun parkPath(): ArrayList<Trajectory> {
+        return arrayListOf(startToPark)
     }
 
     fun drawOffbounds() {
