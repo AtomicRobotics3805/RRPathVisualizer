@@ -64,8 +64,8 @@ object DriveConstantsComp : BaseDriveConstants() {
          */
         maxVel = 40.0
         maxAccel = 45.0
-        maxAngVel = Math.toRadians(60.0)
-        maxAngAccel = Math.toRadians(60.0)
+        maxAngVel = Math.toRadians(180.0)
+        maxAngAccel = Math.toRadians(180.0)
 
         lateralMultiplier = 1.0
 
