@@ -8,22 +8,30 @@ object TrajectoryGen {
         RED
     }
 
-    val color = Color.RED
+    val color = Color.BLUE
 
-    private val startPose = Pose2d(-36.0, 63.0.switchColor, (if (color == Color.BLUE) 180.0 else 90.0).switchColorAngle.toRadians)
+    private val carouselStartPose = Pose2d(-36.0, 63.0.switchColor, (if (color == Color.BLUE) 180.0 else 90.0).switchColorAngle.toRadians)
+    private val farParkStartPose = Pose2d(-36.0, 63.0.switchColor, 0.0.switchColorAngle.toRadians)
+    private val closeParkStartPose = Pose2d(6.0, 63.0.switchColor, 0.0.switchColorAngle.toRadians)
+    private val hubStartPose = Pose2d(-12.0, 63.0.switchColor, 270.0.switchColorAngle.toRadians)
 
     private val drive = TrajectoryBuild(DriveConstantsComp)
 
-    private val startToCarouselBlue = drive.trajectoryBuilder(startPose, startPose.heading)
+    private val startToHub = drive.trajectoryBuilder(hubStartPose, hubStartPose.heading)
+        .forward(21.0)
+        .build()
+
+    private val startToCarouselBlue = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading)
         .splineToConstantHeading(Vector2d(-53.5, 62.0.switchColor), 175.0.switchColorAngle.toRadians)
         .build()
-
-    private val startToCarouselRed = drive.trajectoryBuilder(startPose, startPose.heading + 130.0.switchColorAngle.toRadians)
+    private val startToCarouselRed = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading + 130.0.switchColorAngle.toRadians)
         .splineToSplineHeading(Pose2d(-56.5, 59.0.switchColor, 120.0.switchColorAngle.toRadians), 200.0.switchColorAngle.toRadians)
         .build()
-
-    private val startToPark = drive.trajectoryBuilder(startPose, true)
-        .splineToConstantHeading(Vector2d(40.0, 52.0.switchColor), 0.0.switchColorAngle.toRadians)
+    private val startToParkFar = drive.trajectoryBuilder(farParkStartPose, farParkStartPose.heading - 4.0.switchColorAngle.toRadians)
+        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
+        .build()
+    private val startToParkClose = drive.trajectoryBuilder(closeParkStartPose, closeParkStartPose.heading - 10.0.switchColorAngle.toRadians)
+        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
 
     private val carouselToHub = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(), true)
@@ -31,10 +39,9 @@ object TrajectoryGen {
         .build()
 
     private val hubToPark = drive.trajectoryBuilder(carouselToHub.end(), carouselToHub.end().heading + 90.0.switchColorAngle.toRadians)
-        .splineToSplineHeading(Pose2d(22.0, 42.0.switchColor, 180.0.switchColorAngle.toRadians), 0.0.switchColorAngle.toRadians)
+        .splineToSplineHeading(Pose2d(20.0, 42.0.switchColor, 180.0.switchColorAngle.toRadians), 0.0.switchColorAngle.toRadians)
         .splineToSplineHeading(Pose2d(40.0, 42.0.switchColor, 180.0.switchColorAngle.toRadians), 0.0.switchColorAngle.toRadians)
         .build()
-
     private val carouselToPark = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(), (if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end().heading)
         .back(95.0)
         .build()
@@ -45,6 +52,10 @@ object TrajectoryGen {
     }
 
     fun hubPath(): ArrayList<Trajectory> {
+        return arrayListOf(startToHub, hubToPark)
+    }
+
+    fun hubCarouselPath(): ArrayList<Trajectory> {
         return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToHub, hubToPark)
     }
 
@@ -52,8 +63,12 @@ object TrajectoryGen {
         return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToPark)
     }
 
-    fun parkPath(): ArrayList<Trajectory> {
-        return arrayListOf(startToPark)
+    fun parkFarPath(): ArrayList<Trajectory> {
+        return arrayListOf(startToParkFar)
+    }
+
+    fun parkClosePath(): ArrayList<Trajectory> {
+        return arrayListOf(startToParkClose)
     }
 
     fun drawOffbounds() {
