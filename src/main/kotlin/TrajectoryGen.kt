@@ -83,6 +83,16 @@ object TrajectoryGen {
         return carouselHubBottomParkInPath()
     }
 
+    // ordered from simplest to most complicated
+
+    fun parkClosePath(): ArrayList<Trajectory> {
+        return arrayListOf(startToParkClose)
+    }
+
+    fun parkFarPath(): ArrayList<Trajectory> {
+        return arrayListOf(startToParkFar)
+    }
+
     fun hubFrontPath(): ArrayList<Trajectory> {
         return arrayListOf(startToHubFront, hubFrontToPark)
     }
@@ -105,18 +115,6 @@ object TrajectoryGen {
 
     fun carouselHubBottomParkOutPath(): ArrayList<Trajectory> {
         return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed, hubBottomToParkOut)
-    }
-
-    fun carouselPath(): ArrayList<Trajectory> {
-        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToPark)
-    }
-
-    fun parkFarPath(): ArrayList<Trajectory> {
-        return arrayListOf(startToParkFar)
-    }
-
-    fun parkClosePath(): ArrayList<Trajectory> {
-        return arrayListOf(startToParkClose)
     }
 
     fun drawOffbounds() {
