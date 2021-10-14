@@ -93,6 +93,10 @@ object TrajectoryGen {
         return arrayListOf(startToParkFar)
     }
 
+    fun carouselPath(): ArrayList<Trajectory> {
+        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToPark)
+    }
+
     fun hubFrontPath(): ArrayList<Trajectory> {
         return arrayListOf(startToHubFront, hubFrontToPark)
     }
