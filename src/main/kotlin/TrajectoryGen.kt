@@ -8,7 +8,7 @@ object TrajectoryGen {
         RED
     }
 
-    val color = Color.BLUE
+    val color = Color.RED
 
     private val carouselStartPose = Pose2d(-36.0, 63.0.switchColor, (if (color == Color.BLUE) 180.0 else 90.0).switchColorAngle.toRadians)
     private val farParkStartPose = Pose2d(-36.0, 63.0.switchColor, 0.0.switchColorAngle.toRadians)
@@ -42,8 +42,10 @@ object TrajectoryGen {
     private val carouselToHubFront = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(), true)
         .splineToSplineHeading(Pose2d(-12.0, 42.0.switchColor, 270.0.switchColorAngle.toRadians), 320.0.switchColorAngle.toRadians)
         .build()
-    private val carouselToHubBottom = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(),
-        (if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end().heading + 90.0.toRadians)
+    private val carouselToHubBottomBlue = drive.trajectoryBuilder(startToCarouselBlue.end(), startToCarouselBlue.end().heading + 90.0.toRadians)
+        .splineToSplineHeading(Pose2d(-30.0, 24.0.switchColor, 0.0.switchColorAngle.toRadians), 320.0.switchColorAngle.toRadians)
+        .build()
+    private val carouselToHubBottomRed = drive.trajectoryBuilder(startToCarouselRed.end(), startToCarouselRed.end().heading + 180.0.toRadians)
         .splineToSplineHeading(Pose2d(-30.0, 24.0.switchColor, 0.0.switchColorAngle.toRadians), 320.0.switchColorAngle.toRadians)
         .build()
 
@@ -59,13 +61,15 @@ object TrajectoryGen {
         .splineToSplineHeading(Pose2d(6.0, 53.0.switchColor, 180.0.switchColorAngle.toRadians), 90.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
-    private val hubBottomToParkIn = drive.trajectoryBuilder(carouselToHubBottom.end(), carouselToHubBottom.end().heading + 90.0.switchColor.toRadians)
+    private val hubBottomToParkIn = drive.trajectoryBuilder((if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed).end(),
+        (if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed).end().heading + 90.0.switchColor.toRadians)
         .splineToSplineHeading(Pose2d(-30.0, 38.0.switchColor, 0.0.switchColorAngle.toRadians), 90.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(-12.0, 45.0.switchColor), 0.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(13.0, 40.0.switchColor), 0.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(40.0, 40.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
-    private val hubBottomToParkOut = drive.trajectoryBuilder(carouselToHubBottom.end(), carouselToHubBottom.end().heading + 90.0.switchColor.toRadians)
+    private val hubBottomToParkOut = drive.trajectoryBuilder((if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed).end(),
+        (if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed).end().heading + 90.0.switchColor.toRadians)
         .splineToSplineHeading(Pose2d(-30.0, 36.0.switchColor, 0.0.switchColorAngle.toRadians), 90.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
@@ -96,11 +100,11 @@ object TrajectoryGen {
     }
 
     fun carouselHubBottomParkInPath(): ArrayList<Trajectory> {
-        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToHubBottom, hubBottomToParkIn)
+        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed, hubBottomToParkIn)
     }
 
     fun carouselHubBottomParkOutPath(): ArrayList<Trajectory> {
-        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, carouselToHubBottom, hubBottomToParkOut)
+        return arrayListOf(if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed, if (color == Color.BLUE) carouselToHubBottomBlue else carouselToHubBottomRed, hubBottomToParkOut)
     }
 
     fun carouselPath(): ArrayList<Trajectory> {
