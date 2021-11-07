@@ -8,9 +8,9 @@ object TrajectoryGen {
         RED
     }
 
-    val color = Color.BLUE
+    val color = Color.RED
 
-    private val carouselStartPose = Pose2d(-36.0, 63.0.switchColor, (if (color == Color.BLUE) 0.0 else 270.0).switchColorAngle.toRadians)
+    private val carouselStartPose = Pose2d(-36.0, 63.0.switchColor, if (color == Color.BLUE) 0.0.switchColorAngle.toRadians else 180.0.switchColorAngle.toRadians)
     private val farParkStartPose = Pose2d(-36.0, 63.0.switchColor, 180.0.switchColorAngle.toRadians)
     private val closeParkStartPose = Pose2d(6.0, 63.0.switchColor, 180.0.switchColorAngle.toRadians)
     private val hubFrontStartPose = Pose2d(-12.0, 63.0.switchColor, 90.0.switchColorAngle.toRadians)
@@ -18,28 +18,28 @@ object TrajectoryGen {
 
     private val drive = TrajectoryBuild(DriveConstantsComp)
 
-    private val startToHubFront = drive.trajectoryBuilder(hubFrontStartPose, hubFrontStartPose.heading + 180.0.switchColorAngle)
-        .forward(21.0)
+    private val startToHubFront = drive.trajectoryBuilder(hubFrontStartPose, hubFrontStartPose.heading + 180.0.switchColorAngle.toRadians)
+        .back(21.0)
         .build()
-    private val startToHubTop = drive.trajectoryBuilder(hubTopStartPose, hubFrontStartPose.heading + 180.0.switchColorAngle)
+    private val startToHubTop = drive.trajectoryBuilder(hubTopStartPose, hubFrontStartPose.heading + 180.0.switchColorAngle.toRadians)
         .splineToSplineHeading(Pose2d(6.0, 24.0.switchColor, 0.0.switchColorAngle.toRadians), 270.0.switchColorAngle.toRadians)
         .build()
 
-    private val startToCarouselBlue = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading + 180.0.switchColorAngle)
+    private val startToCarouselBlue = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading + 180.0.switchColorAngle.toRadians)
         .splineToConstantHeading(Vector2d(-53.5, 62.0.switchColor), 175.0.switchColorAngle.toRadians)
         .build()
-    private val startToCarouselRed = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading + 140.0.switchColorAngle.toRadians)
-        .splineToSplineHeading(Pose2d(-56.5, 59.0.switchColor, 300.0.switchColorAngle.toRadians), 200.0.switchColorAngle.toRadians)
+    private val startToCarouselRed = drive.trajectoryBuilder(carouselStartPose, carouselStartPose.heading + 80.0.switchColorAngle.toRadians)
+        .splineToSplineHeading(Pose2d(-56.5, 59.0.switchColor, 300.0.switchColorAngle.toRadians), 180.0.switchColorAngle.toRadians)
         .build()
 
     private val startToParkFar = drive.trajectoryBuilder(farParkStartPose, farParkStartPose.heading - 184.0.switchColorAngle.toRadians)
-        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 180.0.switchColorAngle.toRadians)
+        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
     private val startToParkClose = drive.trajectoryBuilder(closeParkStartPose, closeParkStartPose.heading - 190.0.switchColorAngle.toRadians)
-        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 180.0.switchColorAngle.toRadians)
+        .splineToConstantHeading(Vector2d(40.0, 61.0.switchColor), 0.0.switchColorAngle.toRadians)
         .build()
 
-    private val carouselToHubFront = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(), startToCarouselRed.end().heading)
+    private val carouselToHubFront = drive.trajectoryBuilder((if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end(), (if (color == Color.BLUE) startToCarouselBlue else startToCarouselRed).end().heading)
         .splineToSplineHeading(Pose2d(-12.0, 42.0.switchColor, 90.0.switchColorAngle.toRadians), 320.0.switchColorAngle.toRadians)
         .build()
     private val carouselToHubBottomBlue = drive.trajectoryBuilder(startToCarouselBlue.end(), startToCarouselBlue.end().heading - 90.0.toRadians)
