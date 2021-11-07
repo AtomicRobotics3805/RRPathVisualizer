@@ -17,8 +17,8 @@ object DriveConstantsComp : BaseDriveConstants() {
         /*
          * These are motor constants that should be listed online for your motors.
          */
-        ticksPerRev = 560.0
-        maxRPM = 315.0
+        ticksPerRev = 537.7
+        maxRPM = 312.0
 
         /*
          * Set runUsingEncoder to true to enable built-in hub velocity control using drive encoders.
@@ -40,8 +40,8 @@ object DriveConstantsComp : BaseDriveConstants() {
          * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from gearRatio.
          */
         wheelRadius = 2.0 // in
-        gearRatio = 0.5 // output (wheel) speed / input (motor) speed
-        trackWidth = 23.0 // in
+        gearRatio = 1.0 // output (wheel) speed / input (motor) speed
+        trackWidth = 18.0 // in
 
         /*
          * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -50,8 +50,8 @@ object DriveConstantsComp : BaseDriveConstants() {
          * empirically tuned.
          */
 
-        kV = 0.0245
-        kA = 0.0035
+        kV = 0.018
+        kA = 0.0025
         kStatic = 0.01
 
         /*
@@ -62,9 +62,9 @@ object DriveConstantsComp : BaseDriveConstants() {
          * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
          * forces acceleration-limited profiling). All distance units are inches.
          */
-        maxVel = 40.0
-        maxAccel = 45.0
-        maxAngVel = 0.929
+        maxVel = 30.0
+        maxAccel = 30.0
+        maxAngVel = 3.54
         maxAngAccel = Math.toRadians(60.0)
 
         lateralMultiplier = 1.0
@@ -73,6 +73,6 @@ object DriveConstantsComp : BaseDriveConstants() {
         driftTurnMultiplier = 1.0
 
         translationalPID = PIDCoefficients(8.0, 0.0, 0.0)
-        headingPID = PIDCoefficients(8.0, 0.0, 0.0)
+        headingPID = PIDCoefficients(5.0, 0.0, 0.0)
     }
 }
