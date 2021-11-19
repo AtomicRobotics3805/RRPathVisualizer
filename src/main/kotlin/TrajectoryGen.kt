@@ -6,7 +6,7 @@ import util.trajectories.ParallelTrajectory
 
 object TrajectoryGen {
     private fun createParallelTrajectory(): ArrayList<ParallelTrajectory> {
-        return simpleCarouselHubPath()
+        return parkClosePath()
     }
 
     private fun simpleCarouselHubPath(): ArrayList<ParallelTrajectory> {
