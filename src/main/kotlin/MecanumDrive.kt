@@ -10,12 +10,13 @@ import util.trajectories.ParallelTrajectoryBuilder
 object MecanumDrive {
     // inches
     private val TRACK_WIDTH = 18.0
+
     // inches per second
-    private val MAX_VEL = 52.0
-    private val MAX_ACCEL = 45.0
+    private val MAX_VEL = 65.34512719 * 0.8 // trio 52.0
+    private val MAX_ACCEL = 45.0 // trio 45.0
     // radians per second
-    private val MAX_ANG_VEL = 3.1
-    private val MAX_ANG_ACCEL = Math.toRadians(120.0)
+    private val MAX_ANG_VEL = 11.88 * 0.8 // trio 3.1
+    private val MAX_ANG_ACCEL = 10.22727273 * 0.8 // trio Math.toRadians(120.0)
 
     private val velConstraint: MinVelocityConstraint = MinVelocityConstraint(listOf(
         AngularVelocityConstraint(MAX_ANG_VEL),

@@ -6,7 +6,7 @@ import util.trajectories.ParallelTrajectory
 
 object TrajectoryGen {
     private fun createParallelTrajectory(): ArrayList<ParallelTrajectory> {
-        return parkClosePath()
+        return carouselTwoFreights()
     }
 
     private fun simpleCarouselHubPath(): ArrayList<ParallelTrajectory> {
@@ -51,6 +51,13 @@ object TrajectoryGen {
 
     private fun carouselHubBottomParkOutPath(): ArrayList<ParallelTrajectory> {
         return arrayListOf(TrajectoryFactory.startToCarousel, TrajectoryFactory.carouselToHubBottom, TrajectoryFactory.hubBottomToParkOut)
+    }
+
+    private fun carouselTwoFreights(): ArrayList<ParallelTrajectory> {
+        return arrayListOf(TrajectoryFactory.startToHubFront, TrajectoryFactory.hubFrontToWarehouse,
+            TrajectoryFactory.warehouseToHubFront, TrajectoryFactory.secondHubFrontToWarehouse,
+            TrajectoryFactory.warehouseToHubFront, TrajectoryFactory.hubFrontToCarousel,
+            TrajectoryFactory.carouselToParkClose)
     }
 
     fun drawOffbounds() {
