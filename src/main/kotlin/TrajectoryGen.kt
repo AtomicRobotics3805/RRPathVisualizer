@@ -6,7 +6,7 @@ import util.trajectories.ParallelTrajectory
 
 object TrajectoryGen {
     private fun createParallelTrajectory(): ArrayList<ParallelTrajectory> {
-        return carouselTwoFreights()
+        return carouselHubBottomParkOutPath()
     }
 
     private fun simpleCarouselHubPath(): ArrayList<ParallelTrajectory> {
@@ -34,7 +34,7 @@ object TrajectoryGen {
     }
 
     private fun hubTopParkInPath(): ArrayList<ParallelTrajectory> {
-        return arrayListOf(TrajectoryFactory.startToHubTop, TrajectoryFactory.hubTopToParkIn)
+        return arrayListOf(TrajectoryFactory.startToHubTop, TrajectoryFactory.hubTopToWarehouseIn, TrajectoryFactory.warehouseInToParkIn)
     }
 
     private fun hubTopParkOutPath(): ArrayList<ParallelTrajectory> {
@@ -46,13 +46,13 @@ object TrajectoryGen {
     }
 
     private fun carouselHubBottomParkInPath(): ArrayList<ParallelTrajectory> {
-        return arrayListOf(TrajectoryFactory.startToCarousel, TrajectoryFactory.carouselToHubBottom, TrajectoryFactory.hubBottomToParkIn)
+        return arrayListOf(TrajectoryFactory.startToCarousel, TrajectoryFactory.carouselToHubBottom, TrajectoryFactory.hubBottomToWarehouse, TrajectoryFactory.warehouseToParkIn)
     }
 
     private fun carouselHubBottomParkOutPath(): ArrayList<ParallelTrajectory> {
         return arrayListOf(TrajectoryFactory.startToCarousel, TrajectoryFactory.carouselToHubBottom, TrajectoryFactory.hubBottomToParkOut)
     }
-
+/*
     private fun carouselTwoFreights(): ArrayList<ParallelTrajectory> {
         return arrayListOf(TrajectoryFactory.startToHubFront, TrajectoryFactory.hubFrontToWarehouse,
             TrajectoryFactory.warehouseToHubFront, TrajectoryFactory.secondHubFrontToWarehouse,
@@ -60,6 +60,19 @@ object TrajectoryGen {
             TrajectoryFactory.carouselToParkClose)
     }
 
+    private fun mostFreights(): ArrayList<ParallelTrajectory> {
+        val arrayList = arrayListOf<ParallelTrajectory>()
+        arrayList.add(TrajectoryFactory.startToInsideWarehouse)
+        repeat(5) {
+            arrayList.add(TrajectoryFactory.insideWarehouseToOutsideWarehouse)
+            arrayList.add(TrajectoryFactory.outsideWarehouseToInsideWarehouse)
+        }
+        return arrayList
+    }
+*/
+    private fun carouselHubBottomStorageUnitPath(): ArrayList<ParallelTrajectory> {
+        return arrayListOf(TrajectoryFactory.startToCarousel, TrajectoryFactory.carouselToHubBottom, TrajectoryFactory.hubBottomToStorageUnit)
+    }
     fun drawOffbounds() {
         GraphicsUtil.fillRect(Vector2d(0.0, -63.0), 18.0, 18.0) // robot against the wall
     }
